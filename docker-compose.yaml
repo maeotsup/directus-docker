@@ -1,0 +1,59 @@
+version: '3.7'
+services:
+  database:
+    container_name: database
+    image: postgres
+    volumes:
+      - ./data/database:/var/lib/postgresql/data
+    networks:
+      - directus
+    environment:
+      POSTGRES_USER: 'directus'
+      POSTGRES_PASSWORD: 'directus'
+      POSTGRES_DB: 'directus'
+
+  cache:
+    container_name: cache
+    image: redis
+    networks:
+      - directus
+
+  directus:
+    container_name: directus
+    image: directus/directus
+    ports:
+      - 8055:8055
+    volumes:
+      # By default, Directus images writes uploads to /directus/uploads
+      # Always make sure your volumes matches the storage root when using
+      # local driver
+      - ./uploads:/directus/uploads
+      # Make sure to also mount the volume When using SQLite
+      # - ./database:/directus/database
+      # If you want to load extensions from the host
+      # - ./extensions:/directus/extensions
+    networks:
+      - directus
+    depends_on:
+      - cache
+      - database
+    environment:
+      KEY: 'bcdf2826-a762-11eb-bcbc-0242ac130002'
+      SECRET: 'c5ebe0b2-a762-11eb-bcbc-0242ac130002'
+
+      DB_CLIENT: 'postgres'
+      DB_HOST: 'database'
+      DB_PORT: '5432'
+      DB_DATABASE: 'directus'
+      DB_USER: 'directus'
+      DB_PASSWORD: 'directus'
+
+      CACHE_ENABLED: 'true'
+      CACHE_STORE: 'redis'
+      CACHE_REDIS: 'redis://cache:6379'
+
+      ADMIN_EMAIL: 'sinu.email@uptime.eu'
+      ADMIN_PASSWORD: 'upt1m3-d1r3ctu5'
+
+networks:
+  directus:
