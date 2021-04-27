@@ -4,4 +4,4 @@ Before starting change ADMIN_EMAIL and ADMIN_PASSWORD to your preferred values i
 
 - `docker compose up` - installs Postgres, Redis and Directus in separate containers and starts Directus instance on http://localhost:8055. To shut down Directus use Ctrl+C in running instance command prompt.
 - `docker compose stop` - stops Postgres, Redis and Directus containers running in Docker when run in project root.
-- `docker compose down` - removes Postgres, Redis and Directus containers from Docker.
+- `docker compose down` - removes Postgres, Redis and Directus containers from Docker when run in project root.
