@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: 'directus'
       POSTGRES_DB: 'directus'
     ports:
-       - "5432:5432"
+       - '5432:5432'
 
   cache:
     container_name: cache
